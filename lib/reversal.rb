@@ -24,7 +24,8 @@ require 'reversal/reverser'
 
 module Reversal
   VERSION = "0.9.0"
-  def decompile(iseq)
+  def decompile(iseq, klass = nil)
+    puts klass.inspect if klass
     Reverser.new(iseq).to_ir.to_s
   end
   module_function :decompile
