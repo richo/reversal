@@ -100,7 +100,7 @@ module Reversal
     ##
     # Pops a node from the stack, as a decompiled string
     def pop(n = 1)
-      debug "stack: #{@stack.inspect}"
+      debug "pop from stack: #{@stack.inspect}"
       if @stack.empty?
         raise "Popped an empty stack"
       elsif n == 1
