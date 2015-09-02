@@ -5,6 +5,12 @@
 #
 # MIT License, see LICENSE file in gem package
 
+STDERR.puts "Loading reversal!"
+
+module Reversal
+  LOADED = false
+end
+
 $:.unshift(File.dirname(__FILE__))
 
 module Reversal
@@ -18,10 +24,15 @@ require 'reversal/reverser'
 
 module Reversal
   VERSION = "0.9.0"
-
-  class << self
-    def decompile(iseq)
-      Reverser.new(iseq).to_ir.to_s
-    end
+  def decompile(iseq)
+    Reverser.new(iseq).to_ir.to_s
   end
+  module_function :decompile
+
 end
+
+module Reversal
+  LOADED = true # Whatever
+end
+
+STDERR.puts "Done loading reversal!"
