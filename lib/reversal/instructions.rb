@@ -454,6 +454,17 @@ module Reversal
     def decompile_nop(inst, line_no)
     end
 
+    def decompile_dupn(inst, line_no)
+      assert(inst.length == 2, "incorrect args")
+      @stack[-(inst[1])..-1].each do |item|
+        push item
+      end
+    end
+
+    def assert(pred, msg)
+      raise msg unless pred
+    end
+
     Reverser::OPERATOR_LOOKUP.keys.each do |operator|
       alias_method "decompile_#{operator}".to_sym, :decompile_operator
     end
