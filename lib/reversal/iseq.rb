@@ -25,10 +25,10 @@ module Reversal
         end
         puts array.inspect
 
-        case array[1]
-        when 1
+        case [array[1], array[2]]
+        when [1, 0]
           return VersionOneIseq.new(*array)
-        when 2
+        when [1, 2]
           return VersionTwoISeq.new(*array)
         else
           raise UnknownInstructionSequenceError.new("Unknown YARV instruction sequence format: #{array[1]}.#{array[2]}.#{array[3]}")
