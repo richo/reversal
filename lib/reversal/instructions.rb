@@ -417,6 +417,7 @@ module Reversal
 
     def decompile_leave(inst, line_no)
       # TODO(richo) Holy fuck not having this can't possibly have been going very well
+      # Implementing this as a pop breaks the universe
     end
 
     def decompile_putobject_OP_INT2FIX_O_1_C_(inst, line_no)
@@ -435,14 +436,15 @@ module Reversal
       push r(:getvar, get_local(inst[1]))
     end
 
-    def decompile_opt_send_simple(inst, line_no)
-      # [:opt_send_simple, {:mid=>:require, :flag=>264, :orig_argc=>1, :blockptr=>nil}]
-      _, opts = inst
-      do_send(opts[:mid], opts[:orig_argc], opts[:blockptr], opts[:flag], nil)
-    end
+    # def decompile_opt_send_simple(inst, line_no)
+    #   # [:opt_send_simple, {:mid=>:require, :flag=>264, :orig_argc=>1, :blockptr=>nil}]
+    #   _, opts = inst
+    #   puts inst.inspect
+    #   do_send(opts[:mid], opts[:orig_argc], opts[:blockptr], opts[:flag], nil)
+    # end
 
     def decompile_pop(inst, line_no)
-      pop #lol?
+      # pop #lol?
     end
 
     def decompile_setinlinecache(inst, line_no)
