@@ -449,6 +449,9 @@ module Reversal
       # lol?
     end
 
+    def decompile_nop(inst, line_no)
+    end
+
     Reverser::OPERATOR_LOOKUP.keys.each do |operator|
       alias_method "decompile_#{operator}".to_sym, :decompile_operator
     end
