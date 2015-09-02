@@ -23,7 +23,7 @@ module Reversal
         else
           array = args
         end
-        puts array.inspect
+        # puts array.inspect
 
         case [array[1], array[2]]
         when [1, 0]
@@ -82,7 +82,7 @@ module Reversal
         (arg_opt_labels.size - 1).times do |idx|
           argidx = required_argc + idx
           reverser.reset!
-          puts "argument #{argidx} is from #{arg_opt_labels[idx]} to #{arg_opt_labels[idx + 1]}"
+          # puts "argument #{argidx} is from #{arg_opt_labels[idx]} to #{arg_opt_labels[idx + 1]}"
           newargs[argidx] = "#{self.locals[argidx]} = #{reverser.decompile_body(arg_opt_labels[idx], labels[arg_opt_labels[idx + 1]] - 1).to_s(:one_line => true)}"
         end
         self.type = old_iseq_type
