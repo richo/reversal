@@ -8,7 +8,7 @@
 module Reversal
   class InvalidInstructionSequenceError < StandardError; end
   class UnknownInstructionSequenceError < StandardError; end
-  
+
   class ISeq
     class << self
       def new(*args)
@@ -36,7 +36,7 @@ module Reversal
       end
     end
   end
-  
+
   class SubclassableIseq < Struct.new(:magic, :major_version, :minor_version, :patch_version, :stats,
                                       :name, :filename, :line, :type, :locals, :args, :catch_tables, :body)
 
@@ -46,7 +46,7 @@ module Reversal
         raise InvalidInstructionSequenceError.new("Invalid YARV instruction sequence in array format: #{self.to_a}")
       end
     end
-    
+
     def version
       "#{major_version}.#{minor_version}.#{patch_version}"
     end
@@ -108,7 +108,7 @@ module Reversal
       return args_to_use.map {|x| x.to_s}.join(", ")
     end
   end
-  
+
   class VersionOneIseq < SubclassableIseq
     def initialize(*args)
       self.magic = args[0]
@@ -124,7 +124,7 @@ module Reversal
       self.args = args[10]
       self.catch_tables = args[11]
       self.body = args[12]
-      
+
       @labels = nil
     end
 
