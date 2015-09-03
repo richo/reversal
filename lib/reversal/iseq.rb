@@ -23,12 +23,16 @@ module Reversal
         else
           array = args
         end
-        # dispatch
-        if array[1] == 1
+        puts array.inspect
+
+        case array[1]
+        when 1
           return VersionOneIseq.new(*array)
+        when 2
+          return VersionTwoISeq.new(*array)
+        else
+          raise UnknownInstructionSequenceError.new("Unknown YARV instruction sequence format: #{array[1]}.#{array[2]}.#{array[3]}")
         end
-        # did not successfully dispatch
-        raise UnknownInstructionSequenceError.new("Unknown YARV instruction sequence format: #{array[1]}.#{array[2]}.#{array[3]}")
       end
     end
   end
@@ -123,7 +127,32 @@ module Reversal
       
       @labels = nil
     end
-    
+
+    def num_args
+      self.stats[:arg_size]
+    end
+  end
+
+  class VersionTwoIseq < SubclassableIseq
+    def initialize(*args)
+      self.magic = args[0]
+      self.major_version = args[1]
+      self.minor_version = args[2]
+      self.patch_version = args[3]
+      self.stats = args[4]
+      self.name  = args[5]
+      self.filename = args[6]
+      self.line = args[7]
+      self.type = args[8] # must skip line, not in this version
+      # TODO(richo) args[9]
+      self.locals = args[10]
+      self.args = args[11]
+      self.catch_tables = args[12]
+      self.body = args[13]
+
+      @labels = nil
+    end
+
     def num_args
       self.stats[:arg_size]
     end
