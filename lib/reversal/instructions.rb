@@ -433,5 +433,12 @@ module Reversal
     Reverser::OPERATOR_LOOKUP.keys.each do |operator|
       alias_method "decompile_#{operator}".to_sym, :decompile_operator
     end
+
+    def decompile_opt_send_simple(inst, line_no)
+      # [:send, meth, argc, blockiseq, op_flag, inline_cache]
+      puts inst.inspect
+      raise "oops"
+      do_send *inst[1..-1]
+    end
   end
 end
