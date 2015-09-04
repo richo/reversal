@@ -430,15 +430,28 @@ module Reversal
       remove_useless_dup unless @iseq.type == :top
       push r(:setvar, locals[1], value)
     end
+
+    def decompile_getlocal_OP__WC__0(inst, line_no)
+      push r(:getvar, get_local(inst[1]))
+    end
+
+    def decompile_opt_send_simple(inst, line_no)
+      # [:opt_send_simple, {:mid=>:require, :flag=>264, :orig_argc=>1, :blockptr=>nil}]
+      _, opts = inst
+      do_send(opts[:mid], opts[:orig_argc], opts[:blockptr], opts[:flag], nil)
+    end
+
+    def decompile_pop(inst, line_no)
+      pop #lol?
+    end
+
+    def decompile_setinlinecache(inst, line_no)
+      # lol?
+    end
+
     Reverser::OPERATOR_LOOKUP.keys.each do |operator|
       alias_method "decompile_#{operator}".to_sym, :decompile_operator
     end
 
-    def decompile_opt_send_simple(inst, line_no)
-      # [:send, meth, argc, blockiseq, op_flag, inline_cache]
-      puts inst.inspect
-      raise "oops"
-      do_send *inst[1..-1]
-    end
   end
 end
