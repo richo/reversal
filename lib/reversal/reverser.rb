@@ -29,6 +29,12 @@ module Reversal
       reset!
     end
 
+    def debug(msg)
+      if ENV.include? "YOLO"
+        $stderr.puts msg
+      end
+    end
+
     def reset!
       @stack = []
       @else_stack = []
@@ -94,6 +100,7 @@ module Reversal
     ##
     # Pops a node from the stack, as a decompiled string
     def pop(n = 1)
+      debug "stack: #{@stack.inspect}"
       if @stack.empty?
         raise "Popped an empty stack"
       elsif n == 1
@@ -150,6 +157,8 @@ module Reversal
     end
 
     def decompile_body(instruction = @iseq.body_start, stop = @iseq.body.size)
+      debug instruction.inspect
+
       if instruction.is_a?(Symbol)
         instruction = @iseq.labels[instruction]
       end
@@ -161,6 +170,7 @@ module Reversal
       iseq = @iseq
       while instruction < stop do
         inst = iseq.body[instruction]
+        debug "-> #{inst.inspect}"
         #p inst, @stack
         #puts "Instruction #{instruction} #{inst.inspect} #{@stack.inspect}"
         case inst
@@ -172,7 +182,14 @@ module Reversal
         when Array
           # [:instruction, *args]
           # call "decompile_#{instruction}"
-          send("decompile_#{inst.first}".to_sym, inst, instruction) if respond_to?("decompile_#{inst.first}".to_sym)
+          debug "d: #{inst.first}"
+          # lolwtf why is this not an exception
+          method = "decompile_#{inst.first}".to_sym
+          begin
+            send(method, inst, instruction)
+          rescue NoMethodError
+            raise "No handler for #{method}"
+          end
         end
         instruction = next_instruction_number(inst, instruction)
       end

@@ -411,6 +411,25 @@ module Reversal
       push r(:infix, Reverser::OPERATOR_LOOKUP[inst.first], [receiver, arg])
     end
 
+    # lolricho
+    def decompile_trace(inst, line_no)
+    end
+
+    def decompile_leave(inst, line_no)
+      # TODO(richo) Holy fuck not having this can't possibly have been going very well
+    end
+
+    def decompile_putobject_OP_INT2FIX_O_1_C_(inst, line_no)
+      push r(:lit, 1)
+    end
+
+    def decompile_setlocal_OP__WC__0(inst, line_no)
+      value = pop
+      # for some reason, there seems to cause a :dup instruction to be inserted that fucks
+      # everything up. So i'll pop the return value.
+      remove_useless_dup unless @iseq.type == :top
+      push r(:setvar, locals[1], value)
+    end
     Reverser::OPERATOR_LOOKUP.keys.each do |operator|
       alias_method "decompile_#{operator}".to_sym, :decompile_operator
     end

@@ -133,7 +133,7 @@ module Reversal
     end
   end
 
-  class VersionTwoIseq < SubclassableIseq
+  class VersionTwoISeq < SubclassableIseq
     def initialize(*args)
       self.magic = args[0]
       self.major_version = args[1]
@@ -143,8 +143,8 @@ module Reversal
       self.name  = args[5]
       self.filename = args[6]
       self.line = args[7]
-      self.type = args[8] # must skip line, not in this version
-      # TODO(richo) args[9]
+      # TODO(richo) args[8]
+      self.type = args[9] # must skip line, not in this version
       self.locals = args[10]
       self.args = args[11]
       self.catch_tables = args[12]
